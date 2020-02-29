@@ -1,0 +1,5 @@
+runtime: python37
+entrypoint: python3 ./app.py
+
+runtime_config:
+    python_version: 3
