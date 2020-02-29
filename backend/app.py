@@ -1,17 +1,36 @@
-from flask import Flask
-from flask_restful import Api, Resource, reqparse
-from flask import jsonify
+#!/usr/bin/python3
+import os
+from flask import jsonify, request, Flask
 import json
-
 app = Flask(__name__)
-api = Api(app)
+
+def get_sizes(image):
+    """
+        get_sizes() : Given the image file, get the dimensions.
+        For now a placeholder.
+    """
+    with open('sizes.json', 'rb') as data_file:    
+        sizes = json.load(data_file)
+    return sizes
+
+
+@app.route('/images/', methods=['POST'], strict_slashes=False)
+def images():
+    """
+        images() : Receive the image and return the desired dimensions.
+        For now return success or failure.
+    """
+    try:
+        image = request.files['image']
+        return jsonify(get_sizes(image)), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 # with open('sizes.json', 'rb') as data_file:    
 #     sizes = json.load(data_file)
 
-
+port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
-    print('s')
-    with open('sizes.json', 'rb') as data_file:    
-        sizes = json.load(data_file)
-        print(sizes)
+    app.run(threaded=True, host='0.0.0.0', port=port)
+
+
