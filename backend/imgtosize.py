@@ -7,7 +7,6 @@ import base64
 import requests
 import json
 from phys_ref import phys_reference
-from matplotlib import pyplot as plt
 
 key = 'AIzaSyAZgGSCnq98R4BefHgKfC2W90eBGt2uFfI'
 
@@ -113,21 +112,23 @@ def get_image_measurement(image, filter_word, key):
     return (get_annotation_length(largest) - 30) * proportion #also get rid of 25 px of padding.
 
 
-def get_ref_pix(image, bill):
+def get_ref_pix(image, denom):
     """
         get ref_pix based on bill
     """
-    if bill == "1":
+    if denom == "1":
         return get_image_measurement(image, 'ONE', key)
-    elif bill == "5" or bill == "10" or bill == "20":
+    elif denom in ['5','10','20','50','100']:
         return get_image_measurement(image, 'DOLLARS', key)
+    else:
+        raise ValueError(f'Invalid denomination : {denom}')
 
-
-def get_size(image):
+def get_sizing_dict(image, four_dot):
+    # if params_dict: 
+    #     require_param = ['currency','denom']
+    #     for param in require_param:
+    #         if param not in params_dict:
+    #             raise ValueError(f'Params mismatch: {param} not found')
     ph = phys_reference()
     ref_pix = get_ref_pix(image, '1')
-    return ph.get_size(ref_pix, 'USD', '1') #30px of extra padding due to google vision inaccuracy
-
-#with open("image_from_ios.png", 'rb') as i:
-#    img = i.read()
-#    print(get_image_measurement(img, 'ONE', key))
+    return ph.interpret_pix_size(ref_pix, 'USD', '1')
