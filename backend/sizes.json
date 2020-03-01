@@ -1,7 +1,7 @@
 [{
         "size" : "XXXS",
         "chest_size" : {
-            "inches" : "30-32",
+            "inches" : "0-16",
             "cm": "76-81"},
         "neck_size" : {
             "inches" :  "14",
@@ -10,7 +10,7 @@
     {
         "size" : "XXS",
         "chest_size" : {
-            "inches" :  "0-18",
+            "inches" :  "16-18",
             "cm" : "81-86"},
         "neck_size" : {
             "inches" : "14.5",
