@@ -123,7 +123,7 @@ def get_ref_pix(image, denom):
     else:
         raise ValueError(f'Invalid denomination : {denom}')
 
-def get_sizing_dict(image, four_dot):
+def get_sizing_dict(image, img_width):
     # if params_dict: 
     #     require_param = ['currency','denom']
     #     for param in require_param:
@@ -131,4 +131,4 @@ def get_sizing_dict(image, four_dot):
     #             raise ValueError(f'Params mismatch: {param} not found')
     ph = phys_reference()
     ref_pix = get_ref_pix(image, '1')
-    return ph.interpret_pix_size(ref_pix, 'USD', '1')
+    return ph.interpret_pix_size(ref_pix, 'USD', '1', img_width)

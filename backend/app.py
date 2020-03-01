@@ -3,6 +3,7 @@ import os
 from flask import jsonify, request, Flask
 import json
 import imgtosize
+from PIL import Image
 app = Flask(__name__)
 
 @app.route('/images/', methods=['POST'], strict_slashes=False)
@@ -13,7 +14,7 @@ def images():
     """
     try:
         image = request.files['image']
-        sizing_dict = imgtosize.get_sizing_dict(image.read(), None)
+        sizing_dict = imgtosize.get_sizing_dict(image.read(), Image.open(request.files['file'].stream.width))
         return jsonify(sizing_dict), 200
     except Exception as e:
         return jsonify({'size_name': 'Couldn\'t process image.', 'chest_length': '0'}), 500
