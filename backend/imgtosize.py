@@ -20,7 +20,7 @@ def get_annotations_with_desc(response, desc):
     for resp in responses:
         for annotation in resp.get('textAnnotations', []):
             actual = annotation.get('description', False)
-            if desc in actual and len(actual) <= 5:
+            if desc in actual and len(actual) <= 3:
                 ones.append(annotation)
     return ones
 
@@ -96,7 +96,10 @@ def get_image_measurement(image, filter_word, key):
             "maxResults": 10,
             "type": "TEXT_DETECTION"
             },
-        ]
+        ],
+        "imageContext": {
+            "languageHints": ["en-t-i0"]
+        }
         }
     ]
     }
@@ -109,7 +112,11 @@ def get_image_measurement(image, filter_word, key):
     ones = get_annotations_with_desc(texts, filter_word)
     largest = get_largest_box(ones)
     proportion = 3/float(len(largest.get('description', 3))) #in case of extra (misread) letters.
-    return (get_annotation_length(largest) - 15) * proportion #also get rid of 25 px of padding.
+    print(largest.get('description', 'Couldn\'t get description.'))
+    ret = (get_annotation_length(largest) - 7) * proportion #also get rid of 25 px of padding.
+    print(ret)
+    print()
+    return ret
 
 
 def get_ref_pix(image, denom):
@@ -117,7 +124,7 @@ def get_ref_pix(image, denom):
         get ref_pix based on bill
     """
     if denom == "1":
-        return get_image_measurement(image, 'ONE', key)
+        return get_image_measurement(image, 'MLH', key)
     elif denom in ['5','10','20','50','100']:
         return get_image_measurement(image, 'DOLLARS', key)
     else:

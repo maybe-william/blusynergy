@@ -2,9 +2,9 @@
     {
         "currency" : "USD",
         "denomination" : "1",
-        "size_signal" : "ONE",
+        "size_signal" : "MLH",
         "cm" : "5.08",
-        "inches" : "1.91"
+        "inches" : "2.7"
     },
     {
         "currency" : "USD",
