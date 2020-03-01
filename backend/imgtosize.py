@@ -109,7 +109,7 @@ def get_image_measurement(image, filter_word, key):
     ones = get_annotations_with_desc(texts, filter_word)
     largest = get_largest_box(ones)
     proportion = 3/float(len(largest.get('description', 3))) #in case of extra (misread) letters.
-    return (get_annotation_length(largest) - 30) * proportion #also get rid of 25 px of padding.
+    return (get_annotation_length(largest) - 15) * proportion #also get rid of 25 px of padding.
 
 
 def get_ref_pix(image, denom):

@@ -27,7 +27,7 @@ class phys_reference:
     def get_length(self, currency, denom, unit):
         try:
             for ref in self.ref_list:
-                if (ref['currency'] == currency and ref['denom'] == denom):
+                if (ref['currency'] == currency and ref['denomination'] == denom):
                     return float(ref[unit])
             raise NotImplementedError
         except:

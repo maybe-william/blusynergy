@@ -16,6 +16,7 @@ def images():
         sizing_dict = imgtosize.get_sizing_dict(image.read(), None)
         return jsonify(sizing_dict), 200
     except Exception as e:
+        print(e)
         return jsonify({'size_name': 'Couldn\'t process image.', 'chest_length': '0'}), 500
 
 
