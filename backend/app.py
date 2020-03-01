@@ -13,10 +13,10 @@ def images():
     """
     try:
         image = request.files['image']
-        sizing_dict = imgtosize.get_sizing_dict(image.read())
+        sizing_dict = imgtosize.get_sizing_dict(image.read(), None)
         return jsonify(sizing_dict), 200
     except Exception as e:
-        raise f"An Error Occured: {e}"
+        return jsonify({'size_name': 'Couldn\'t process image.', 'chest_length': '0'}), 500
 
 
 port = int(os.environ.get('PORT', 8080))
