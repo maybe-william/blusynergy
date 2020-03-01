@@ -35,20 +35,19 @@ class phys_reference:
             raise NotImplementedError
         except:
             raise ValueError(f'PARAMS: {currency} , {denomination} not in database')
-    
 
-    # may eventually define post_dict {onhuman: bool, reference: , unit}
-    def get_size(self, image, ref_pix, currency, denomination): 
+    # may eventually define post_dict {onhuman: bool, ref_pix: size, currency: curr, denomination: denom, unit: inches}
+    def get_size(self, ref_pix, currency, denomination): 
+        # print(ref_pix)
         ref_length = self.get_length_inches(currency, denomination)
         img_chest = (float(self.CHEST_ABS_PIX) / float(ref_pix)) * ref_length
         for size in self.size_list:
             if (img_chest < float(size['chest_size']['inches'].split('-')[1])): # upper bound
                 if (img_chest > float(size['chest_size']['inches'].split('-')[0])): # lower bound
                     return size['size']
-                    
         return 'UNKNOWN'
     
 if __name__ == '__main__':
     ph = phys_reference()
     for i in range(1,100,1):
-        print(i, " yields ", ph.get_size(None, i, 'USD', '1'))
+        print(i, " yields ", ph.get_size(i, 'USD', '1'))

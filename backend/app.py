@@ -2,19 +2,16 @@
 import os
 from flask import jsonify, request, Flask
 import json
-from phys_ref import phys_reference
+import imgtosize as i2s
 app = Flask(__name__)
 
-ph = phys_reference()
 
 def get_sizes(image):
     """
         get_sizes() : Given the image file, get the dimensions.
         For now a placeholder.
     """
-    with open('sizes.json', 'rb') as data_file:    
-        sizes = ph.get_sizes(image) #json.load(data_file)
-    return sizes
+    return i2s.get_sizes(image)
 
 
 @app.route('/images/', methods=['POST'], strict_slashes=False)
@@ -32,6 +29,9 @@ def images():
 
 port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=port)
+    with open('prueba.jpg','rb') as x:
+        image = x.read()
+        i2s.get_size(image)
+    # app.run(threaded=True, host='0.0.0.0', port=port)
 
 

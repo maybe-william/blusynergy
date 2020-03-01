@@ -94,10 +94,6 @@ def get_image_measurement(image, filter_word, key):
         "features": [
             {
             "maxResults": 10,
-            "type": "OBJECT_LOCALIZATION"
-            },
-            {
-            "maxResults": 10,
             "type": "TEXT_DETECTION"
             },
         ]
@@ -109,7 +105,6 @@ def get_image_measurement(image, filter_word, key):
     params = {'key': key}
     headers = {'Content-type': 'application/json'}
     x = requests.post(url, params=params, headers=headers, data=req_json)
-
     texts = x.json()
     ones = get_annotations_with_desc(texts, filter_word)
     largest = get_largest_box(ones)
@@ -127,4 +122,4 @@ def get_ref_pix(image, bill):
 def get_size(image):
     ph = phys_reference()
     ref_pix = get_ref_pix(image, '1')
-    ph.get_size(image, ref_pix, 'USD', '1')
+    ph.get_size(ref_pix, 'USD', '1')
