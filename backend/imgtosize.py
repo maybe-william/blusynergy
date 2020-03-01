@@ -122,5 +122,7 @@ def get_yardstick(image, bill):
     """
     if bill == "1":
         return get_image_measurement(image, 'ONE', key)
+    elif bill == "5" or bill == "10" or bill == "20":
+        return get_image_measurement(image, 'DOLLARS', key)
 
 

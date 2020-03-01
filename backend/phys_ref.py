@@ -21,4 +21,6 @@ class phys_reference():
         except:
             raise ValueError('PARAMS: does not exist')
 
+    def get_sizes(self, image):
+        return({'status': 'ok'})
 print(phys_reference().get_measure_cm("USD","1"))
