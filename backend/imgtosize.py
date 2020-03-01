@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # import the necessary packages
 # from scipy.spatial import distance as dist
 import numpy as np
@@ -5,51 +6,100 @@ import requests
 import base64
 import requests
 import json
-import cv2 
+#import cv2 
 from matplotlib import pyplot as plt
 
 key = 'AIzaSyAZgGSCnq98R4BefHgKfC2W90eBGt2uFfI'
 
-file_image = 'one_.jpg'
-with open(file_image, "rb") as image_file:
-    user_img = base64.b64encode(image_file.read())
 
-request = {
-"requests": [
-    {
-    "image": {
-        "content": user_img.decode('utf-8')
-    },
-    "features": [
+
+def get_annotations_with_desc(response, desc):
+    """
+        get_annotations_with_desc : Gets any annotations with a matching description.
+    """
+    ones = []
+    responses = response.get('responses', [])
+    responses = filter(lambda x: x.get('textAnnotations', False), responses)
+    for resp in responses:
+        for annotation in resp.get('textAnnotations', []):
+            if annotation.get('description', False) == desc:
+                ones.append(annotation)
+    return ones
+
+
+def get_largest_box(annotations):
+    """
+        get_largest_box() : Gets the largest bounding box of a group of annotations.
+    """
+    def get_box_area(annotation):
+        """
+            get_box_area() : Gets the box area of a single annotation
+        """
+        verts = annotation.get('boundingPoly', {}).get('vertices', None)
+        if verts is None:
+            return 0
+        x1 = verts[0].get('x', 0)
+        x2 = verts[1].get('x', 0)
+        x3 = verts[2].get('x', 0)
+
+        y1 = verts[0].get('y', 0)
+        y2 = verts[1].get('y', 0)
+        y3 = verts[2].get('y', 0)
+
+        d1 = np.sqrt(((x1-x2)**2)+((y1-y2)**2))
+        d2 = np.sqrt(((x2-x3)**2)+((y2-y3)**2))
+        return d1*d2
+    max_size = None
+    num = 0
+    for annotation in annotations:
+        x = get_box_area(annotation)
+        if x > num:
+            num = x
+            max_size = annotation
+    return max_size
+
+
+def get_image_measurement(image, filter_word, key):
+    """
+        get_image_measurement() : Get the measurement object given the text to find
+    """
+    user_img = base64.b64encode(image)
+    request = {
+    "requests": [
         {
-        "maxResults": 10,
-        "type": "OBJECT_LOCALIZATION"
+        "image": {
+            "content": user_img.decode('utf-8')
         },
-        {
-        "maxResults": 10,
-        "type": "TEXT_DETECTION"
-        },
+        "features": [
+            {
+            "maxResults": 10,
+            "type": "OBJECT_LOCALIZATION"
+            },
+            {
+            "maxResults": 10,
+            "type": "TEXT_DETECTION"
+            },
+        ]
+        }
     ]
     }
-]
-}
-req_json = json.dumps(request)
-url = 'https://vision.googleapis.com/v1/images:annotate'
-params = {'key': key}
-headers = {'Content-type': 'application/json'}
-x = requests.post(url, params=params, headers=headers, data=req_json)
+    req_json = json.dumps(request)
+    url = 'https://vision.googleapis.com/v1/images:annotate'
+    params = {'key': key}
+    headers = {'Content-type': 'application/json'}
+    x = requests.post(url, params=params, headers=headers, data=req_json)
 
-text_file = open(file_image, 'w+')
-text_file.write(x.text)
-print(list(filter(lambda x:x["id_number"]=="CZ1094",x.json)))
+    texts = x.json()
+    ones = get_annotations_with_desc(texts, filter_word)
+    largest = get_largest_box(ones)
+    return largest
 
 
-    # img = cv2.imread(str(i+1)+'.jpg',0)
-    # edges = cv2.Canny(img,100,200)
+file_image = 'one_.jpg'
 
-    # plt.subplot(121),plt.imshow(img)
-    # plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    # plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-    # plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+img = None
+with open(file_image, "rb") as image_file:
+    img = image_file.read()
+print(get_image_measurement(img, 'ONE', key))
 
-    # plt.show()
+
