@@ -26,6 +26,28 @@ def get_annotations_with_desc(response, desc):
                 ones.append(annotation)
     return ones
 
+def get_annotation_length(annotation):
+    """
+        get the annotation length as a yardstick
+    """
+    verts = annotation.get('boundingPoly', {}).get('vertices', None)
+    if verts is None:
+        return 0
+    x1 = verts[0].get('x', 0)
+    x2 = verts[1].get('x', 0)
+    x3 = verts[2].get('x', 0)
+
+    y1 = verts[0].get('y', 0)
+    y2 = verts[1].get('y', 0)
+    y3 = verts[2].get('y', 0)
+
+    d1 = np.sqrt(((x1-x2)**2)+((y1-y2)**2))
+    d2 = np.sqrt(((x2-x3)**2)+((y2-y3)**2))
+
+    if d1 > d2:
+        return d1
+    return d2
+
 
 def get_largest_box(annotations):
     """
@@ -92,14 +114,13 @@ def get_image_measurement(image, filter_word, key):
     texts = x.json()
     ones = get_annotations_with_desc(texts, filter_word)
     largest = get_largest_box(ones)
-    return largest
+    return get_annotation_length(largest)
 
-
-file_image = 'one_.jpg'
-
-img = None
-with open(file_image, "rb") as image_file:
-    img = image_file.read()
-print(get_image_measurement(img, 'ONE', key))
+def get_yardstick(image, bill):
+    """
+        get yardstick based on bill
+    """
+    if bill == "1":
+        return get_image_measurement(image, 'ONE', key)
 
 
