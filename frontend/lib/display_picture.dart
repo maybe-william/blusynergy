@@ -23,8 +23,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   String shirtSize = '';
   String chestSize = '';
 
-
-    // user defined function
+  // user defined function
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -32,7 +31,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(child: new Text("Could not process image.")),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
@@ -71,7 +71,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
     }
 
     _sendImage(imgPath) async {
-      var uri = Uri.parse("https://b02956b4.ngrok.io/images");
+      setState(() {
+        isLoading = true;
+      });
+      var uri = Uri.parse("https://8857d4af.ngrok.io/images");
 
       var request = new http.MultipartRequest("POST", uri)
         ..files.add(await http.MultipartFile.fromPath('image', imgPath));
@@ -80,19 +83,20 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       print(response.statusCode);
       response.stream.bytesToString().then((value) {
         var res_json = json.decode(value);
+        print(value);
         setState(() {
-          if (response.statusCode != 500){
+          isLoading = false;
+          if (response.statusCode != 500) {
             shirtSize = res_json['size_name'];
-            chestSize = "Chest : "+res_json['chest_length']+" inch";
-          }
-          else {
+            chestSize = "Chest : " +
+                res_json['chest_length'].toStringAsFixed(2) +
+                " inch";
+          } else {
             _showDialog();
           }
         });
-        print(value);
       });
     }
-
 
     return Scaffold(
         // The image is stored as a file on the device. Use the `Image.file`
@@ -121,7 +125,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               Opacity(
                 opacity: 0.5,
                 child: new Image.asset(
-                  isLoading ? 'shirt.png' : 'shirt_white.png',
+                  'shirt_white.png',
                   fit: BoxFit.contain,
                   width: double.infinity,
                   height: double.infinity,
@@ -134,12 +138,15 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                     fontSize: 80,
                     fontWeight: FontWeight.w500),
               ),
-              Text(
-                chestSize,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w500),
+              Positioned(
+                top: 110,
+                child: Text(
+                  chestSize,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w800),
+                ),
               ),
             ]),
           ),
@@ -164,7 +171,19 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
             },
             child: Text("Send Image!"),
           ),
-        )
+        ),
+        isLoading
+            ? Opacity(
+                opacity: 0.6,
+                child: Container(
+                  color: Colors.black,
+                ),
+              )
+            : Container(),
+        Align(
+          alignment: FractionalOffset.center,
+          child: isLoading ? CircularProgressIndicator() : Container(),
+        ),
       ]),
     ));
   }

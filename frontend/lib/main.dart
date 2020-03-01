@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/Login/LandingPage.dart';
+import 'package:frontend/Login/LoginScreen.dart';
 import 'picture_page.dart';
 import 'package:camera/camera.dart';
 import 'dashboard.dart';
 import 'gallery.dart';
+import './Login/LandingPage.dart';
 
 void main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
@@ -27,7 +30,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(camera: camera),
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => HomePage(camera: camera),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/login': (context) => LandingPage(),
+      },
+      initialRoute: '/login',
     );
   }
 }
@@ -73,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(title: Text('BluSynergy')),
+      appBar: new AppBar(title: Text('BluSA'),automaticallyImplyLeading: false,),
       body: _genBody(selectedTab),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: new FloatingActionButton(
@@ -84,7 +93,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: new BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Padding(
-          padding: const EdgeInsets.only(top:10.0),
+          padding: const EdgeInsets.only(top: 10.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -107,10 +116,7 @@ class _HomePageState extends State<HomePage> {
               GestureDetector(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(Icons.photo),
-                    Text("Gallery")
-                  ],
+                  children: <Widget>[Icon(Icons.photo), Text("Gallery")],
                 ),
                 onTap: () {
                   setState(() {

@@ -14,7 +14,7 @@ class _DashboardState extends State<Dashboard> {
         children: <Widget>[
           Container(
             height: 500,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(left:5),
             child: Stack(
                 children: [
                   Image.asset('avatar.png', fit: BoxFit.contain),
@@ -28,8 +28,11 @@ class _DashboardState extends State<Dashboard> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 50,),
-                  Text("My Measurement", style: TextStyle(fontWeight: FontWeight.w800),),
-                  Text("Chest: 30cm"), Text("Neck: 8cm")],
+                  Text("MY MEASUREMENT", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12),),
+                  SizedBox(height: 20,),
+                  Text("Chest: 20 inch"), 
+                  SizedBox(height: 5,),
+                  Text("Neck: 3 inch")],
               ),
             ),
           )
