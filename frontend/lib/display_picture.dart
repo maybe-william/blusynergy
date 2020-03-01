@@ -74,7 +74,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       setState(() {
         isLoading = true;
       });
-      var uri = Uri.parse("https://8857d4af.ngrok.io/images");
+      var uri = Uri.parse("https://db0fb392.ngrok.io/images");
 
       var request = new http.MultipartRequest("POST", uri)
         ..files.add(await http.MultipartFile.fromPath('image', imgPath));
