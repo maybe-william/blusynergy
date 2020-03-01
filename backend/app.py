@@ -2,7 +2,10 @@
 import os
 from flask import jsonify, request, Flask
 import json
+from phys_ref import phys_reference
 app = Flask(__name__)
+
+ph = phys_reference()
 
 def get_sizes(image):
     """
@@ -10,7 +13,7 @@ def get_sizes(image):
         For now a placeholder.
     """
     with open('sizes.json', 'rb') as data_file:    
-        sizes = json.load(data_file)
+        sizes = ph.get_sizes(image) #json.load(data_file)
     return sizes
 
 
@@ -26,8 +29,6 @@ def images():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-# with open('sizes.json', 'rb') as data_file:    
-#     sizes = json.load(data_file)
 
 port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
