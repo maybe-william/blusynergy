@@ -16,7 +16,6 @@ class phys_reference:
             raise ValueError("FILE MALFORMED/MISSING: sizes.json")
 
         self.CHEST_ABS_PIX = 618
-        self.NECK_ABS_PIX = 274
 
 
     def get_length_inches(self, currency, denomination):
