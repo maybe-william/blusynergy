@@ -1,81 +1,81 @@
 [{
         "size" : "XXXS",
         "chest_size" : {
-            "cm" :  "30-32",
-            "inches": "76-81"},
+            "inches" : "30-32",
+            "cm": "76-81"},
         "neck_size" : {
-            "cm" :  "14",
-            "inches": "36"}
+            "inches" :  "14",
+            "cm" : "36"}
     },
     {
         "size" : "XXS",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "81-86"},
+            "inches" :  "32-34",
+            "cm" : "81-86"},
         "neck_size" : {
-            "cm" :  "14.5",
-            "inches": "37.5"}
+            "inches" : "14.5",
+            "cm" : "37.5"}
     },
     {
         "size" : "XS",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "86-91"},
+            "inches" :  "34-36",
+            "cm" : "86-91"},
         "neck_size" : {
-            "cm" :  "15",
-            "inches": "38.5"}
+            "inches" :  "15",
+            "cm" : "38.5"}
     },
     {
         "size" : "S",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "91-96"},
+            "inches" :  "36-38",
+            "cm" : "91-96"},
         "neck_size" : {
-            "cm" :  "15.5",
-            "inches": "39.5"}
+            "inches" :  "15.5",
+            "cm" : "39.5"}
     },
     {
         "size" : "M",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "96-101"},
+            "inches" :  "38-40",
+            "cm" : "96-101"},
         "neck_size" : {
-            "cm" :  "16",
-            "inches": "41.5"}
+            "inches" : "16",
+            "cm" : "41.5"}
     },
     {
         "size" : "L",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "101-106"},
+            "inches" :  "40-42",
+            "cm" : "101-106"},
         "neck_size" : {
-            "cm" :  "17",
-            "inches": "43.5"}
+            "inches" :  "17",
+            "cm" : "43.5"}
     },
     {
         "size" : "XL",
         "chest_size" : {
-            "cm" :  "32-34",
-            "inches": "106-111"},
+            "inches" :  "42-44",
+            "cm" : "106-111"},
         "neck_size" : {
-            "cm" :  "17.5",
-            "inches": "45.5"}
+            "inches"  :  "17.5",
+            "cm" : "45.5"}
     },
     {
         "size" : "XXL",
         "chest_size" : {
-            "cm" :  "44-46",
-            "inches": "111-116"},
+            "inches" :  "44-46",
+            "cm" : "111-116"},
         "neck_size" : {
-            "cm" :  "18.5",
-            "inches": "47.5"}
+            "inches" :  "18.5",
+            "cm" : "47.5"}
     },
     {
         "size" : "XXXL",
         "chest_size" : {
-            "cm" :  "46-48",
-            "inches": "116-121"},
+            "inches" : "46-48",
+            "cm" : "116-121"},
         "neck_size" : {
-            "cm" :  "19.5",
-            "inches": "49.5"}
+            "inches" :  "19.5",
+            "cm": "49.5"}
     }]

@@ -6,12 +6,10 @@ import requests
 import base64
 import requests
 import json
-#import cv2 
+from phys_ref import phys_reference
 from matplotlib import pyplot as plt
 
 key = 'AIzaSyAZgGSCnq98R4BefHgKfC2W90eBGt2uFfI'
-
-
 
 def get_annotations_with_desc(response, desc):
     """
@@ -25,6 +23,7 @@ def get_annotations_with_desc(response, desc):
             if annotation.get('description', False) == desc:
                 ones.append(annotation)
     return ones
+
 
 def get_annotation_length(annotation):
     """
@@ -116,11 +115,16 @@ def get_image_measurement(image, filter_word, key):
     largest = get_largest_box(ones)
     return get_annotation_length(largest)
 
-def get_yardstick(image, bill):
+
+def get_ref_pix(image, bill):
     """
-        get yardstick based on bill
+        get ref_pix based on bill
     """
     if bill == "1":
         return get_image_measurement(image, 'ONE', key)
 
 
+def get_size(image):
+    ph = phys_reference()
+    ref_pix = get_ref_pix(image, '1')
+    ph.get_size(image, ref_pix, 'USD', '1')
