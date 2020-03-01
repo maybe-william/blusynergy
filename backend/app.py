@@ -5,14 +5,12 @@ import json
 import imgtosize
 app = Flask(__name__)
 
-def get_sizes(image):
+def get_size(image):
     """
         get_sizes() : Given the image file, get the dimensions.
         For now a placeholder.
     """
-    with open('sizes.json', 'rb') as data_file:    
-        sizes = imgtosize.get_size(image) #json.load(data_file)
-    return sizes
+    return imgtosize.get_size(image)
 
 
 @app.route('/images/', methods=['POST'], strict_slashes=False)
@@ -23,7 +21,7 @@ def images():
     """
     try:
         image = request.files['image']
-        return jsonify(get_sizes(image.read())), 200
+        return jsonify(get_size(image.read())), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
