@@ -38,7 +38,7 @@ class phys_reference:
 
 
     # may eventually define post_dict {onhuman: bool, reference: , unit}
-    def get_size(self, image, ref_pix, currency, denomination): 
+    def get_size(self, ref_pix, currency, denomination): 
         ref_length = self.get_length_inches(currency, denomination)
         img_chest = (float(self.CHEST_ABS_PIX) / float(ref_pix)) * ref_length
         for size in self.size_list:

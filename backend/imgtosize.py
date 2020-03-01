@@ -20,7 +20,8 @@ def get_annotations_with_desc(response, desc):
     responses = filter(lambda x: x.get('textAnnotations', False), responses)
     for resp in responses:
         for annotation in resp.get('textAnnotations', []):
-            if annotation.get('description', False) == desc:
+            actual = annotation.get('description', False)
+            if desc in actual and len(actual) <= 5:
                 ones.append(annotation)
     return ones
 
@@ -113,7 +114,8 @@ def get_image_measurement(image, filter_word, key):
     texts = x.json()
     ones = get_annotations_with_desc(texts, filter_word)
     largest = get_largest_box(ones)
-    return get_annotation_length(largest)
+    proportion = 3/float(len(largest.get('description', 3))) #in case of extra (misread) letters.
+    return (get_annotation_length(largest) - 30) * proportion #also get rid of 25 px of padding.
 
 
 def get_ref_pix(image, bill):
@@ -129,4 +131,8 @@ def get_ref_pix(image, bill):
 def get_size(image):
     ph = phys_reference()
     ref_pix = get_ref_pix(image, '1')
-    ph.get_size(image, ref_pix, 'USD', '1')
+    return ph.get_size(ref_pix, 'USD', '1') #30px of extra padding due to google vision inaccuracy
+
+#with open("image_from_ios.png", 'rb') as i:
+#    img = i.read()
+#    print(get_image_measurement(img, 'ONE', key))

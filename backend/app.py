@@ -2,10 +2,8 @@
 import os
 from flask import jsonify, request, Flask
 import json
-from phys_ref import phys_reference
+import imgtosize
 app = Flask(__name__)
-
-ph = phys_reference()
 
 def get_sizes(image):
     """
@@ -13,7 +11,7 @@ def get_sizes(image):
         For now a placeholder.
     """
     with open('sizes.json', 'rb') as data_file:    
-        sizes = ph.get_sizes(image) #json.load(data_file)
+        sizes = imgtosize.get_size(image) #json.load(data_file)
     return sizes
 
 
@@ -25,7 +23,7 @@ def images():
     """
     try:
         image = request.files['image']
-        return jsonify(get_sizes(image)), 200
+        return jsonify(get_sizes(image.read())), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
